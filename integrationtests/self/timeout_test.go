@@ -187,7 +187,7 @@ var _ = Describe("Timeout tests", func() {
 			server, err := quic.ListenAddr(
 				"localhost:0",
 				getTLSConfig(),
-				getQuicConfig(nil),
+				getQuicConfig(&quic.Config{DisablePathMTUDiscovery: true}),
 			)
 			Expect(err).ToNot(HaveOccurred())
 			defer server.Close()
@@ -204,7 +204,7 @@ var _ = Describe("Timeout tests", func() {
 			sess, err := quic.DialAddr(
 				fmt.Sprintf("localhost:%d", server.Addr().(*net.UDPAddr).Port),
 				getTLSClientConfig(),
-				getQuicConfig(&quic.Config{MaxIdleTimeout: idleTimeout}),
+				getQuicConfig(&quic.Config{MaxIdleTimeout: idleTimeout, DisablePathMTUDiscovery: true}),
 			)
 			Expect(err).ToNot(HaveOccurred())
 			startTime := time.Now()
@@ -232,7 +232,7 @@ var _ = Describe("Timeout tests", func() {
 			server, err := quic.ListenAddr(
 				"localhost:0",
 				getTLSConfig(),
-				getQuicConfig(nil),
+				getQuicConfig(&quic.Config{DisablePathMTUDiscovery: true}),
 			)
 			Expect(err).ToNot(HaveOccurred())
 			defer server.Close()
@@ -262,7 +262,7 @@ var _ = Describe("Timeout tests", func() {
 			sess, err := quic.DialAddr(
 				fmt.Sprintf("localhost:%d", proxy.LocalPort()),
 				getTLSClientConfig(),
-				getQuicConfig(&quic.Config{MaxIdleTimeout: idleTimeout}),
+				getQuicConfig(&quic.Config{MaxIdleTimeout: idleTimeout, DisablePathMTUDiscovery: true}),
 			)
 			Expect(err).ToNot(HaveOccurred())
 
