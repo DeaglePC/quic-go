@@ -26,8 +26,8 @@ const (
 	VersionDraft34  VersionNumber = 0x1 // If everything goes according to plan at the IETF, this will one day be QUIC v1.
 )
 
-// SupportedVersions lists the versions that the server supports
-// must be in sorted descending order
+// SupportedVersions lists the versions that we support, in decending order of preference.
+// Note: VersionDraft34 must not be added here before publication of the QUIC RFC.
 var SupportedVersions = []VersionNumber{VersionTLS}
 
 // IsValidVersion says if the version is known to quic-go

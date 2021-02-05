@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/lucas-clemente/quic-go"
+	"github.com/lucas-clemente/quic-go/internal/protocol"
 	"github.com/lucas-clemente/quic-go/internal/utils"
 	"github.com/lucas-clemente/quic-go/logging"
 	"github.com/lucas-clemente/quic-go/metrics"
@@ -103,11 +104,13 @@ func init() {
 	flag.BoolVar(&enableQlog, "qlog", false, "enable qlog")
 	// metrics won't be accessible anywhere, but it's useful to exercise the code
 	flag.BoolVar(&enableMetrics, "metrics", false, "enable metrics")
+
+	// Allow QUIC draft-34 and add it to the list of supported versions.
+	protocol.SupportedVersions = append(protocol.SupportedVersions, protocol.VersionDraft34)
 }
 
 var _ = BeforeSuite(func() {
 	mrand.Seed(GinkgoRandomSeed())
-
 	ca, caPrivateKey, err := generateCA()
 	if err != nil {
 		panic(err)
